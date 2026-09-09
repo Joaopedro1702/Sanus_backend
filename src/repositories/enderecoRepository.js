@@ -1,4 +1,6 @@
-const db = require("../connection/db")
+//Desenvolvido por João Pedro
+
+const db = require("../connection/db");
 
 //criando funções de CRUD para clienteEndereco
 
@@ -58,3 +60,14 @@ async function deletarEndereco(id){
     );
     return result;
 }
+
+//Utilizando todas as funções
+
+module.exports = {
+    criarEndereco,
+    buscarEnderecoPorId,
+    buscarEnderecoPorCep,
+    listarEnderecos,
+    atualizarEndereco,
+    deletarEndereco
+};
