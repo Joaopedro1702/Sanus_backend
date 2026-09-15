@@ -38,10 +38,35 @@ async function deletarVenda(id){
     return result;
 }
 
+async function faturamentoPorTarjaEMes() {
+    const [result] = await db.query(`
+        SELECT p.tarja, MONTH(v.data_Venda) AS mes, SUM(pv.qnt * pv.valor_Unitario) AS total
+        FROM Tbl_Venda v
+        JOIN Tbl_Produto_Venda pv ON v.id = pv.id_Venda
+        JOIN Tbl_Produto p ON pv.id_Produto = p.id
+        GROUP BY p.tarja, mes
+        ORDER BY mes
+    `);
+    return result;
+}
+
+async function faturamentoPorFormaPagamento() {
+    const [result] = await db.query(`
+        SELECT pg.forma_Pagamento, MONTH(v.data_Venda) AS mes, SUM(pg.valor_Pago) AS total
+        FROM Tbl_Pagamento_Venda pg
+        JOIN Tbl_Venda v ON pg.id_Venda = v.id
+        GROUP BY pg.forma_Pagamento, mes
+        ORDER BY mes
+    `);
+    return result;
+}
+
 //Utilizando todas as funções
 module.exports = {
     criarVenda,
     buscarVendaPorId,
     atualizarVenda,
-    deletarVenda
+    deletarVenda,
+    faturamentoPorTarjaEMes,
+    faturamentoPorFormaPagamento
 };
