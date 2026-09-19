@@ -1,7 +1,7 @@
 const db = require("../connection/db");
 
 //Criando telefone_usuario
-async function criarTelefoneUsuario(id_Usuario, telefone){
+async function criarTelefoneUsuario({id_Usuario, telefone}){
     const [result] = await db.query(
         "INSERT INTO Tbl_Telefone_Usuario (id_Usuario, telefone) VALUES (?, ?)",
         [id_Usuario, telefone]
@@ -10,7 +10,7 @@ async function criarTelefoneUsuario(id_Usuario, telefone){
 }
 
 //Criando função de buscar telefone_usuario por id
-async function buscarTelefoneUsuarioPorId(id){
+async function buscarTelefoneUsuarioPorId({id}){
     const [result] = await db.query(
         "SELECT * FROM Tbl_Telefone_Usuario WHERE id = ?",
         [id]
@@ -19,7 +19,7 @@ async function buscarTelefoneUsuarioPorId(id){
 }
 
 //Criando função de atualizar telefone_usuario
-async function atualizarTelefoneUsuario(id, id_Usuario, telefone){
+async function atualizarTelefoneUsuario({id, id_Usuario, telefone}){
     const [result] = await db.query(
         `UPDATE Tbl_Telefone_Usuario
         SET id_Usuario = ?, telefone = ?
@@ -30,7 +30,7 @@ async function atualizarTelefoneUsuario(id, id_Usuario, telefone){
 }
 
 //Criando função para deletar telefone_usuario
-async function deletarTelefoneUsuario(id){
+async function deletarTelefoneUsuario({id}){
     const [result] = await db.query(
         "DELETE FROM Tbl_Telefone_Usuario WHERE id = ?",
         [id]

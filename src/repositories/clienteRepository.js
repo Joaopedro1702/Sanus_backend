@@ -2,7 +2,7 @@ const db = require("../connection/db");
 
 //Criando Cliente
 
-async function criarCliente(id_Usuario, aceita_Ofertas) {
+async function criarCliente({id_Usuario, aceita_Ofertas}) {
     const [result] = await db.query(
         `INSERT INTO Tbl_Cliente (id_Usuario, aceita_Ofertas)
          VALUES (?, ?)`,
@@ -13,7 +13,7 @@ async function criarCliente(id_Usuario, aceita_Ofertas) {
 }
 
 //Buscando cliente por Id
-async function buscarClientePorId(id){
+async function buscarClientePorId({id}){
     const [result] = await db.query(
         "SELECT * FROM Tbl_Cliente WHERE id = ?",
         [id]
@@ -23,7 +23,7 @@ async function buscarClientePorId(id){
 
 //Buscando cliente por fk id_Usuario
 
-async function buscarClientePorUsuarioId(id_Usuario){
+async function buscarClientePorUsuarioId({id_Usuario}){
     const [result] = await db.query(
         "SELECT * FROM Tbl_Cliente WHERE id_Usuario = ?",
         [id_Usuario]
@@ -41,7 +41,7 @@ async function listarClientes(){
 }
 
 //atualizando cliente
-async function atualizarCliente(id, aceita_Ofertas){
+async function atualizarCliente({id, aceita_Ofertas}){
     const [result] = await db.query(
         `UPDATE Tbl_Cliente
         SET aceita_ofertas = ?
@@ -53,7 +53,7 @@ async function atualizarCliente(id, aceita_Ofertas){
 
 //Função de deletar cliente
 
-async function deletarCliente(id){
+async function deletarCliente({id}){
     const [result] = await db.query(
         "DELETE FROM Tbl_Cliente WHERE id = ?",
         [id]

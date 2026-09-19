@@ -1,7 +1,7 @@
 const db = require("../connection/db");
 
 //Criando produtoCompra
-async function criarProdutoCompra(id_Produto, id_Compra, qnt, valor_Unitario){
+async function criarProdutoCompra({id_Produto, id_Compra, qnt, valor_Unitario}){
     const [result] = await db.query(
         "INSERT INTO Tbl_Produto_Compra (id_Produto, id_Compra, qnt, valor_Unitario) VALUES (?, ?, ?, ?)",
         [id_Produto, id_Compra, qnt, valor_Unitario]
@@ -10,7 +10,7 @@ async function criarProdutoCompra(id_Produto, id_Compra, qnt, valor_Unitario){
 }
 
 //Criando função de buscar produtoCompra por id
-async function buscarProdutoCompraPorId(id){
+async function buscarProdutoCompraPorId({id}){
     const [result] = await db.query(
         "SELECT * FROM Tbl_Produto_Compra WHERE id = ?",
         [id]
@@ -19,7 +19,7 @@ async function buscarProdutoCompraPorId(id){
 }
 
 //Criando função de atualizar produtoCompra
-async function atualizarProdutoCompra(id, id_Produto, id_Compra, qnt, valor_Unitario){
+async function atualizarProdutoCompra({id, id_Produto, id_Compra, qnt, valor_Unitario}){
     const [result] = await db.query(
         `UPDATE Tbl_Produto_Compra
         SET id_Produto = ?, id_Compra = ?, qnt = ?, valor_Unitario = ?
@@ -30,7 +30,7 @@ async function atualizarProdutoCompra(id, id_Produto, id_Compra, qnt, valor_Unit
 }
 
 //Criando função para deletar produtoCompra
-async function deletarProdutoCompra(id){
+async function deletarProdutoCompra({id}){
     const [result] = await db.query(
         "DELETE FROM Tbl_Produto_Compra WHERE id = ?",
         [id]

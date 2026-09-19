@@ -2,7 +2,7 @@ const db = require("../connection/db");
 
 //Criando produto
 
-async function cadastroProduto(nome, descricao, preco, tarja){
+async function cadastroProduto({nome, descricao, preco, tarja}){
     const [result] = await db.query(
         "INSERT INTO Tbl_Produto (nome, descricao, preco, tarja) VALUES (?, ?, ?, ?)",
     [nome, descricao, preco, tarja]
@@ -12,7 +12,7 @@ async function cadastroProduto(nome, descricao, preco, tarja){
 }
 
 //Atualizando produto
-async function atualizarProduto(id,nome, descricao, preco, tarja){
+async function atualizarProduto({id,nome, descricao, preco, tarja}){
     const [result] = await db.query(
         `UPDATE Tbl_Produto
         SET nome = ?, descricao = ?, preco = ?, tarja = ?
@@ -33,7 +33,7 @@ async function listarProdutos(){
 
 /*
 //buscando por id
-async function listaProdutosPorId(id){
+async function listaProdutosPorId({id}){
     const [result] = await db.query(
         `SELECT * FROM Tbl_Produto
         WHERE id = ?`,
@@ -43,7 +43,7 @@ async function listaProdutosPorId(id){
 }
 
 //Buscando por preco
-async function listarProdutosPorCnpj(preco){
+async function listarProdutosPorCnpj({preco}){
     const [result] = await db.query(
         `SELECT * FROM Tbl_Produto
         WHERE preco = ?`,
@@ -54,7 +54,7 @@ async function listarProdutosPorCnpj(preco){
 */
 
 //Deletar fornecedor
-async function deletarProduto(id){
+async function deletarProduto({id}){
     const [request] = await db.query(
         `DELETE FROM Tbl_Produto
         WHERE id = ?`,

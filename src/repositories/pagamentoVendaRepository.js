@@ -1,7 +1,7 @@
 const db = require("../connection/db");
 
 //Criando pagamentoVenda
-async function criarPagamentoVenda(id_Venda, forma_Pagamento, valor_Pago, valor_Recebido, troco, situacao){
+async function criarPagamentoVenda({id_Venda, forma_Pagamento, valor_Pago, valor_Recebido, troco, situacao}){
     const [result] = await db.query(
         "INSERT INTO Tbl_Pagamento_Venda (id_Venda, forma_Pagamento, valor_Pago, valor_Recebido, troco, situacao) VALUES (?, ?, ?, ?, ?, ?)",
         [id_Venda, forma_Pagamento, valor_Pago, valor_Recebido, troco, situacao]
@@ -10,7 +10,7 @@ async function criarPagamentoVenda(id_Venda, forma_Pagamento, valor_Pago, valor_
 }
 
 //Criando função de buscar pagamentoVenda por id
-async function buscarPagamentoVendaPorId(id){
+async function buscarPagamentoVendaPorId({id}){
     const [result] = await db.query(
         "SELECT * FROM Tbl_Pagamento_Venda WHERE id = ?",
         [id]
@@ -19,7 +19,7 @@ async function buscarPagamentoVendaPorId(id){
 }
 
 //Criando função de atualizar pagamentoVenda
-async function atualizarPagamentoVenda(id, id_Venda, forma_Pagamento, valor_Pago, valor_Recebido, troco, situacao){
+async function atualizarPagamentoVenda({id, id_Venda, forma_Pagamento, valor_Pago, valor_Recebido, troco, situacao}){
     const [result] = await db.query(
         `UPDATE Tbl_Pagamento_Venda
         SET id_Venda = ?, forma_Pagamento = ?, valor_Pago = ?, valor_Recebido = ?, troco = ?, situacao = ?
@@ -30,7 +30,7 @@ async function atualizarPagamentoVenda(id, id_Venda, forma_Pagamento, valor_Pago
 }
 
 //Criando função para deletar pagamentoVenda
-async function deletarPagamentoVenda(id){
+async function deletarPagamentoVenda({id}){
     const [result] = await db.query(
         "DELETE FROM Tbl_Pagamento_Venda WHERE id = ?",
         [id]

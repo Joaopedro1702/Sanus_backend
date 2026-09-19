@@ -1,7 +1,7 @@
 const db = require("../connection/db");
 
 //Criando venda
-async function criarVenda(id_Cliente, id_Funcionario, nfe, valor, data_Venda, canal_Venda){
+async function criarVenda({id_Cliente, id_Funcionario, nfe, valor, data_Venda, canal_Venda}){
     const [result] = await db.query(
         "INSERT INTO Tbl_Venda (id_Cliente, id_Funcionario, nfe, valor, data_Venda, canal_Venda) VALUES (?, ?, ?, ?, ?, ?)",
         [id_Cliente, id_Funcionario, nfe, valor, data_Venda, canal_Venda]
@@ -10,7 +10,7 @@ async function criarVenda(id_Cliente, id_Funcionario, nfe, valor, data_Venda, ca
 }
 
 //Criando função de buscar venda por id
-async function buscarVendaPorId(id){
+async function buscarVendaPorId({id}){
     const [result] = await db.query(
         "SELECT * FROM Tbl_Venda WHERE id = ?",
         [id]
@@ -19,7 +19,7 @@ async function buscarVendaPorId(id){
 }
 
 //Criando função de atualizar venda
-async function atualizarVenda(id, id_Cliente, id_Funcionario, nfe, valor, data_Venda, canal_Venda){
+async function atualizarVenda({id, id_Cliente, id_Funcionario, nfe, valor, data_Venda, canal_Venda}){
     const [result] = await db.query(
         `UPDATE Tbl_Venda
         SET id_Cliente = ?, id_Funcionario = ?, nfe = ?, valor = ?, data_Venda = ?, canal_Venda = ?
@@ -30,7 +30,7 @@ async function atualizarVenda(id, id_Cliente, id_Funcionario, nfe, valor, data_V
 }
 
 //Criando função para deletar venda
-async function deletarVenda(id){
+async function deletarVenda({id}){
     const [result] = await db.query(
         "DELETE FROM Tbl_Venda WHERE id = ?",
         [id]

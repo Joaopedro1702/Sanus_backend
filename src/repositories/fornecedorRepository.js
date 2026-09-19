@@ -2,7 +2,7 @@ const db = require("../connection/db");
 
 //Criando fornecedor
 
-async function cadastroFornecedor(nome, cnpj, email){
+async function cadastroFornecedor({nome, cnpj, email}){
     const [result] = await db.query(
         "INSERT INTO Tbl_Fornecedor (nome, cnpj, email) VALUES (?, ?, ?)",
     [nome, cnpj, email]
@@ -12,7 +12,7 @@ async function cadastroFornecedor(nome, cnpj, email){
 }
 
 //Atualizando fornecedor
-async function atualizarFornecedor(id,nome, email){
+async function atualizarFornecedor({id,nome, email}){
     const [result] = await db.query(
         `UPDATE Tbl_Fornecedor
         SET nome = ?, email = ?
@@ -33,7 +33,7 @@ async function listarFornecedores(){
 
 /*
 //buscando por id
-async function listarFornecedoresPorId(id){
+async function listarFornecedoresPorId({id}){
     const [result] = await db.query(
         `SELECT * FROM Tbl_Fornecedor
         WHERE id = ?`,
@@ -43,7 +43,7 @@ async function listarFornecedoresPorId(id){
 }
 
 //Buscando por cnpj
-async function listarFornecedoresPorCnpj(cnpj){
+async function listarFornecedoresPorCnpj({cnpj}){
     const [result] = await db.query(
         `SELECT * FROM Tbl_Fornecedor
         WHERE cnpj = ?`,
@@ -54,7 +54,7 @@ async function listarFornecedoresPorCnpj(cnpj){
 */
 
 //Deletar fornecedor
-async function deletarFornecedor(id){
+async function deletarFornecedor({id}){
     const [request] = await db.query(
         `DELETE FROM Tbl_Fornecedor
         WHERE id = ?`,

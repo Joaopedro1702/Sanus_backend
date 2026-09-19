@@ -1,7 +1,7 @@
 const db = require("../connection/db");
 
 //Criando funcionário
-async function criarFuncionario(id_Usuario, data_admissao, cargo) {
+async function criarFuncionario({id_Usuario, data_admissao, cargo}) {
     const [result] = await db.query(
         `INSERT INTO Tbl_Funcionario (id_Usuario, data_admissao, cargo)
          VALUES (?, ?, ?)`,
@@ -12,7 +12,7 @@ async function criarFuncionario(id_Usuario, data_admissao, cargo) {
 }
 
 //Buscando cliente por Id
-async function buscarFuncionarioPorId(id){
+async function buscarFuncionarioPorId({id}){
     const [result] = await db.query(
         "SELECT * FROM Tbl_Funcionario WHERE id = ?",
         [id]
@@ -22,7 +22,7 @@ async function buscarFuncionarioPorId(id){
 
 //Buscando funcionario por fk id_Usuario
 
-async function buscarFuncionarioPorUsuarioId(id_Usuario){
+async function buscarFuncionarioPorUsuarioId({id_Usuario}){
     const [result] = await db.query(
         "SELECT * FROM Tbl_Funcionario WHERE id_Usuario = ?",
         [id_Usuario]
@@ -40,7 +40,7 @@ async function listarFuncionario(){
 }
 
 //atualizando funcionario
-async function atualizarFuncionario(id, data_admissao, cargo){
+async function atualizarFuncionario({id, data_admissao, cargo}){
     const [result] = await db.query(
         `UPDATE Tbl_Funcionario
         SET data_admissao = ?,cargo = ?
@@ -52,7 +52,7 @@ async function atualizarFuncionario(id, data_admissao, cargo){
 
 //Função de deletar funcionario
 
-async function deletarFuncionario(id){
+async function deletarFuncionario({id}){
     const [result] = await db.query(
         "DELETE FROM Tbl_Funcionario WHERE id = ?",
         [id]

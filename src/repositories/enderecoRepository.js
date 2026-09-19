@@ -4,7 +4,7 @@ const db = require("../connection/db");
 
 //criando funções de CRUD para clienteEndereco
 
-async function criarEndereco(cep, logradouro, bairro, cidade, uf) {
+async function criarEndereco({cep, logradouro, bairro, cidade, uf}) {
     const [result] = await db.query(
         "INSERT INTO Tbl_Endereco (cep, logradouro, bairro, cidade, uf) VALUES (?, ?, ?, ?, ?)",
         [cep, logradouro, bairro, cidade, uf]
@@ -15,7 +15,7 @@ async function criarEndereco(cep, logradouro, bairro, cidade, uf) {
 
 //Buscando endereço por id
 
-async function buscarEnderecoPorId(id){
+async function buscarEnderecoPorId({id}){
     const [result] = await db.query(
         "SELECT * FROM Tbl_Endereco WHERE id = ?",
         [id]
@@ -24,7 +24,7 @@ async function buscarEnderecoPorId(id){
 }
 
 //Vai buscar o endereço através do cep
-async function buscarEnderecoPorCep(cep){
+async function buscarEnderecoPorCep({cep}){
     const [result] = await db.query(
         "SELECT * FROM Tbl_Endereco WHERE cep = ?",
         [cep]
@@ -41,7 +41,7 @@ async function listarEnderecos(){
 }
 
 //Função de atualizar endereço
-async function atualizarEndereco(id, cep, logradouro, bairro, cidade, uf){
+async function atualizarEndereco({id, cep, logradouro, bairro, cidade, uf}){
     const [result] = await db.query(
         `UPDATE Tbl_Endereco
         SET cep = ?, logradouro = ?, bairro = ?, cidade = ?, uf = ?
@@ -53,7 +53,7 @@ async function atualizarEndereco(id, cep, logradouro, bairro, cidade, uf){
 }
 
 //Função que deleta por id
-async function deletarEndereco(id){
+async function deletarEndereco({id}){
     const [result] = await db.query(
         "DELETE FROM Tbl_Endereco WHERE id = ?"
         [id]
