@@ -2,7 +2,7 @@
 
 async function consultarController(repo, req, res) {
 	return async function(req, res) {
-		if (req.body == null) {
+		if (req.params == null) {
 			try {
 				const resultado = await repo();
 				return res.status(200).json(resultado);
@@ -11,7 +11,7 @@ async function consultarController(repo, req, res) {
 			}
 		} else {
 			try {
-				const resultado = await repo(req.body);
+				const resultado = await repo(req.params.id);
 				return res.status(200).json(resultado);
 			} catch (err) {
 				return res.status(500).json({error: err});
@@ -19,3 +19,5 @@ async function consultarController(repo, req, res) {
 		}
 	}
 }
+
+module.exports = consultarController;
