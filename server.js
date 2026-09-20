@@ -4,11 +4,11 @@ const express = require("express");
 
 const app = express();
 
-const routes = require("../backend/src/routes/index")
+const routes = require("./src/routes")
 
 const cors = require('cors');
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 //Permite receber o JSON
 app.use(express.json());
