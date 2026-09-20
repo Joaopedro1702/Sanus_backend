@@ -44,7 +44,7 @@ async function atualizarFuncionario({id, data_admissao, cargo}){
     const [result] = await db.query(
         `UPDATE Tbl_Funcionario
         SET data_admissao = ?,cargo = ?
-        WHERE id = ? `
+        WHERE id = ? `,
         [data_admissao, id, cargo]
     );
     return result;

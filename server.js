@@ -4,15 +4,16 @@ const express = require("express");
 
 const app = express();
 
-const db = require("../backend/src/connection/db");
+const routes = require("../backend/src/routes/index")
 
-const dashboard = require("../backend/src/routes/dashboardRoutes")
+const cors = require('cors');
 
 const PORT = 3000;
 
 //Permite receber o JSON
 app.use(express.json());
-app.use("/api", dashboard);
+app.use(cors());
+app.use("/api", routes);
 
 app.get("/teste", (req, res) => {
     res.json({

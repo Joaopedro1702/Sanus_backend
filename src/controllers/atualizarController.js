@@ -1,10 +1,13 @@
 // fetch PUT
 
-async function atualizarController(repo) {
+function atualizarController(repo) {
 	return async function(req, res) {
 		try {
-			await repo(req.body);
-			return res.status(200).json({status: true});
+			const resultado = await repo({ ...req.body, id: req.params.id });
+if (resultado.affectedRows === 0) {
+	return res.status(404).json({ error: "Não encontrado" });
+}
+return res.status(200).json({ status: true });
 		} catch (err) {
 			return res.status(500).json({error: err});
 		}

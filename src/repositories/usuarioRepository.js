@@ -1,10 +1,13 @@
 const db = require("../connection/db");
-
+const bcrypt = require("bcrypt");
+const SALT_ROUND = 10;
 //Criando usuário
 async function criarUsuario({nome, cpf, email, senha, data_Nasc}){
+    
+    const senhaHash = await bcrypt.hash(senha, SALT_ROUND);
     const [result] = await db.query(
         "INSERT INTO Tbl_Usuario (nome, cpf, email, senha, data_Nasc) VALUES (?, ?, ?, ?, ?)",
-        [nome, cpf, email, senha, data_Nasc]
+        [nome, cpf, email, senhaHash, data_Nasc]
     );
     return result;
 }
@@ -28,13 +31,21 @@ async function buscarUsuarioPorId({id}){
     return result;
 }*/
 
+async function buscarUsuarioPorEmail({email}) {
+    const [result] = await db.query(
+        "SELECT * FROM Tbl_Usuario WHERE email = ?", [email]
+    );
+    return result[0];
+}
+
 //Criando função de criar usuário
 async function atualizarUsuario({id, nome, cpf, email, senha, data_Nasc}){
+    const senhaHash = await bcrypt.hash(senha, SALT_ROUND);    
     const [result] = await db.query(
         `UPDATE Tbl_Usuario
         SET nome = ?, cpf =?, email = ?, senha = ?, data_Nasc = ?
-        WHERE id = ?`
-        [nome, cpf, email, senha, data_Nasc, id]
+        WHERE id = ?`,
+        [nome, cpf, email, senhaHash, data_Nasc, id]
         );
         return result;
 }
@@ -42,7 +53,7 @@ async function atualizarUsuario({id, nome, cpf, email, senha, data_Nasc}){
 //Criando função para deletar usuário
 async function deletarUsuario({id}){
     const [result] = await db.query(
-        "DELETE FROM Tbl_Usuario WHERE id = ?"
+        "DELETE FROM Tbl_Usuario WHERE id = ?",
         [id]
     );
     return result;
@@ -52,6 +63,7 @@ async function deletarUsuario({id}){
 module.exports = {
     criarUsuario,
     buscarUsuarioPorId,
+    buscarUsuarioPorEmail,
     atualizarUsuario,
     deletarUsuario
 };

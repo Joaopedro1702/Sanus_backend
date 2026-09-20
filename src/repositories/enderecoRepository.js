@@ -46,7 +46,7 @@ async function atualizarEndereco({id, cep, logradouro, bairro, cidade, uf}){
         `UPDATE Tbl_Endereco
         SET cep = ?, logradouro = ?, bairro = ?, cidade = ?, uf = ?
         WHERE id = ?,
-        `
+        `,
         [cep, logradouro, bairro, cidade, uf, id]
     );
     return result;
@@ -55,7 +55,7 @@ async function atualizarEndereco({id, cep, logradouro, bairro, cidade, uf}){
 //Função que deleta por id
 async function deletarEndereco({id}){
     const [result] = await db.query(
-        "DELETE FROM Tbl_Endereco WHERE id = ?"
+        "DELETE FROM Tbl_Endereco WHERE id = ?",
         [id]
     );
     return result;

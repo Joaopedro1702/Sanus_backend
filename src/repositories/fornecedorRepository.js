@@ -55,7 +55,7 @@ async function listarFornecedoresPorCnpj({cnpj}){
 
 //Deletar fornecedor
 async function deletarFornecedor({id}){
-    const [request] = await db.query(
+    const [result] = await db.query(
         `DELETE FROM Tbl_Fornecedor
         WHERE id = ?`,
         [id]

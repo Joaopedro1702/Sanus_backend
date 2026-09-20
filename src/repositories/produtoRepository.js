@@ -31,7 +31,7 @@ async function listarProdutos(){
     return result
 }
 
-/*
+
 //buscando por id
 async function listaProdutosPorId({id}){
     const [result] = await db.query(
@@ -41,7 +41,7 @@ async function listaProdutosPorId({id}){
     );
     return result
 }
-
+/*
 //Buscando por preco
 async function listarProdutosPorCnpj({preco}){
     const [result] = await db.query(
@@ -55,7 +55,7 @@ async function listarProdutosPorCnpj({preco}){
 
 //Deletar fornecedor
 async function deletarProduto({id}){
-    const [request] = await db.query(
+    const [result] = await db.query(
         `DELETE FROM Tbl_Produto
         WHERE id = ?`,
         [id]
@@ -63,9 +63,10 @@ async function deletarProduto({id}){
     return result
 }
 
-module.exports(
+module.exports = {
     cadastroProduto,
     atualizarProduto,
     listarProdutos,
+    listaProdutosPorId,
     deletarProduto
-)
+};
