@@ -1,5 +1,3 @@
-require("dotenv").config();
-
 const express = require("express");
 
 const app = express();
@@ -8,7 +6,7 @@ const routes = require("./src/routes")
 
 const cors = require('cors');
 
-const PORT = process.env.PORT || 3000;
+const { port } = require('../backend/src/config');
 
 //Permite receber o JSON
 app.use(express.json());
@@ -21,6 +19,6 @@ app.get("/teste", (req, res) => {
     });
 });
 
-app.listen(PORT, () => {
-    console.log(`Servidor rodando na porta ${PORT}`);
+app.listen(port, () => {
+    console.log(`Servidor rodando na porta ${port}`);
 });

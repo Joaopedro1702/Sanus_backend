@@ -1,8 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-
+const { jwtSecret} = require('../config');
 const criarCtl = require("../controllers/criarController.js");
 const consultar = require("../controllers/consultarController.js");
 const atualizarCtl = require ("../controllers/atualizarController.js");
@@ -19,7 +18,7 @@ router.post("/login", async (req, res) => {
         const ok = usuario && await bcrypt.compare(senha, usuario.senha);
         if (!ok) return res.status(401).json({error: "Credenciais inválidas!"});
         
-        const token = jwt.sign({id: usuario.id}, process.env.JWT_SECRET, {expiresIn: "8h"});
+        const token = jwt.sign({id: usuario.id}, jwtSecret, {expiresIn: "8h"});
         res.json({token, id:usuario.id, nome: usuario.nome})
     }catch(err){
         console.error(err);
