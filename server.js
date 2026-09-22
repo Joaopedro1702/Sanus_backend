@@ -6,7 +6,7 @@ const routes = require("./src/routes")
 
 const cors = require('cors');
 
-const { port } = require('../backend/src/config');
+const { port } = require('src/config');
 
 //Permite receber o JSON
 app.use(express.json());
