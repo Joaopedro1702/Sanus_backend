@@ -40,7 +40,10 @@ async function deletarVenda({id}){
 
 async function faturamentoPorTarjaEMes() {
     const [result] = await db.query(`
-        SELECT p.tarja, MONTH(v.data_Venda) AS mes, SUM(pv.qnt * pv.valor_Unitario) AS total
+        SELECT p.tarja,
+        YEAR(v.data_Venda) AS ano,
+        MONTH(v.data_Venda) AS mes, 
+        SUM(pv.qnt * pv.valor_Unitario) AS total
         FROM Tbl_Venda v
         JOIN Tbl_Produto_Venda pv ON v.id = pv.id_Venda
         JOIN Tbl_Produto p ON pv.id_Produto = p.id
@@ -52,7 +55,9 @@ async function faturamentoPorTarjaEMes() {
 
 async function faturamentoPorFormaPagamento() {
     const [result] = await db.query(`
-        SELECT pg.forma_Pagamento, MONTH(v.data_Venda) AS mes, SUM(pg.valor_Pago) AS total
+        SELECT pg.forma_Pagamento, 
+        YEAR(v.data_Venda) AS ano,
+        MONTH(v.data_Venda) AS mes, SUM(pg.valor_Pago) AS total
         FROM Tbl_Pagamento_Venda pg
         JOIN Tbl_Venda v ON pg.id_Venda = v.id
         GROUP BY pg.forma_Pagamento, mes

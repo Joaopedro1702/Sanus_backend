@@ -9,7 +9,7 @@ if (resultado.affectedRows === 0) {
 }
 return res.status(200).json({ status: true });
 		} catch (err) {
-			return res.status(500).json({error: err});
+			return res.status(500).json({error: err.message});
 		}
 	}
 }

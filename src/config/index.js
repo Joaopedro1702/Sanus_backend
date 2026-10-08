@@ -1,7 +1,7 @@
 require("dotenv").config();
 
 //constante que irá receber uma lista com todas as constantes que conecta ao banco
-const obrigatorias = ["DB_HOST", "DB_USER", "DB_PSWD", "DB_NAME"];
+const obrigatorias = ["DB_HOST", "DB_USER", "DB_PSWD", "DB_NAME", "JWT_SECRET"];
 const faltando = obrigatorias.filter((nome) => !process.env[nome]);
 
 if (faltando.length){
@@ -17,7 +17,7 @@ module.exports = {
         user: process.env.DB_USER,
         password: process.env.DB_PSWD,
         database: process.env.DB_NAME,
-        ssl: process.envDB_SSL === "true" ? { rejectUnauthorized: false}: undefined,
+        ssl: process.env.DB_SSL === "true" ? { rejectUnauthorized: false}: undefined,
     },
     jwtSecret: process.env.JWT_SECRET,
 };

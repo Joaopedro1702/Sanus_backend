@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
+const jwt = require('jsonwebtoken');
 const { jwtSecret} = require('../config');
 const criarCtl = require("../controllers/criarController.js");
 const consultar = require("../controllers/consultarController.js");
@@ -8,6 +9,8 @@ const atualizarCtl = require ("../controllers/atualizarController.js");
 const apagar = require("../controllers/apagarController.js");
 const dashboardController = require("../controllers/dashboardController.js") 
 const usuarioRepo = require("../repositories/usuarioRepository.js");
+const { autenticar } = require("../middleware/auth.js");
+const usuario = require("../repositories/usuarioRepository");
 
 //login
 
@@ -26,6 +29,12 @@ router.post("/login", async (req, res) => {
     }
 });
 
+router.post("/usuarios", criarCtl(usuario.criarUsuario));
+
+//autenticar token
+
+router.use(autenticar)
+
 //Registra as quatro rotas do CRUD em uma entidade
 
 function crud(caminho, { criar, buscar, listar, atualizar: upd, deletar }) {
@@ -36,9 +45,7 @@ function crud(caminho, { criar, buscar, listar, atualizar: upd, deletar }) {
   if (deletar) router.delete(`/${caminho}/:id`, apagar(deletar));
 }
 
-const usuario = require("../repositories/usuarioRepository");
 crud("usuarios", {
-  criar: usuario.criarUsuario,
   buscar: usuario.buscarUsuarioPorId,
   atualizar: usuario.atualizarUsuario,
   deletar: usuario.deletarUsuario,
