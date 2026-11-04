@@ -2,10 +2,10 @@ const db = require("../connection/db");
 
 //Criando fornecedor
 
-async function cadastroFornecedor({nome, cnpj, email}){
+async function cadastroFornecedor({nome, cnpj, email, telefone, id_Endereco, cep, logradouro, bairro, cidade, uf, numero, complemento, referencia}){
     const [result] = await db.query(
-        "INSERT INTO Tbl_Fornecedor (nome, cnpj, email) VALUES (?, ?, ?)",
-    [nome, cnpj, email]
+        "CALL sp_AddFornecedor(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [nome, cnpj, email, telefone, id_Endereco, cep, logradouro, bairro, cidade, uf, numero, complemento, referencia]
     );
     return result;
 
@@ -63,9 +63,9 @@ async function deletarFornecedor({id}){
     return result
 }
 
-module.exports(
+module.exports = {
     cadastroFornecedor,
     atualizarFornecedor,
     listarFornecedores,
-    deletarFornecedor
-)
+    deletarFornecedor,
+};

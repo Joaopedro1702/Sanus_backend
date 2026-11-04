@@ -1,16 +1,17 @@
 const db = require("../connection/db");
+const bcrypt = require("bcryptjs");
+const SALT_ROUND = 10;
 
 //Criando Cliente
+async function criarCliente({nome, cpf, email, senha, data_Nasc, telefone, aceitaOfertas}){
 
-async function criarCliente({id_Usuario, aceita_Ofertas}) {
+    const senhaHash = await bcrypt.hash(senha, SALT_ROUND);
     const [result] = await db.query(
-        `INSERT INTO Tbl_Cliente (id_Usuario, aceita_Ofertas)
-         VALUES (?, ?)`,
-        [id_Usuario, aceita_Ofertas]
+        "CALL sp_AddCliente (?, ?, ?, ?, ?, ?, ?)",
+        [nome, cpf, email, senhaHash, data_Nasc, telefone, aceitaOfertas]
     );
-
     return result;
-}
+};
 
 //Buscando cliente por Id
 async function buscarClientePorId({id}){
@@ -29,6 +30,36 @@ async function buscarClientePorUsuarioId({id_Usuario}){
         [id_Usuario]
     );
     return result
+}
+
+async function visualizarCliente({id, id_Usuario}){
+    const idUsuario = id ?? id_Usuario;
+    const connection = await db.getConnection();
+
+    try {
+        // As procedures existentes leem @id_Cliente; a variável de sessão
+        // precisa ser definida na mesma conexão do CALL.
+        await connection.query("SET @id_Cliente = ?", [idUsuario]);
+        const [result] = await connection.query("CALL sp_ViewCliente(?)", [idUsuario]);
+        return result[0];
+    } finally {
+        connection.release();
+    }
+}
+
+//Função para o "Minha conta" do cliente, onde lee vai poder ver
+//seus dados cadastrais e altera-los.
+async function visualizarContaCliente({id, id_Usuario}){
+    const idUsuario = id ?? id_Usuario;
+    const connection = await db.getConnection();
+
+    try {
+        await connection.query("SET @id_Cliente = ?", [idUsuario]);
+        const [result] = await connection.query("CALL sp_ViewContaCliente(?)", [idUsuario]);
+        return result[0];
+    } finally {
+        connection.release();
+    }
 }
 
 //Função de listar usuários
@@ -65,6 +96,8 @@ module.exports = {
     criarCliente,
     buscarClientePorId,
     buscarClientePorUsuarioId,
+    visualizarCliente,
+    visualizarContaCliente,
     listarClientes,
     atualizarCliente,
     deletarCliente
