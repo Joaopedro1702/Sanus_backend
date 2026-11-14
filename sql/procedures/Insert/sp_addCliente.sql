@@ -6,7 +6,7 @@
 -- ================================================
 
 -- Entra no banco de dados
-USE dbSannus
+USE dbSannus;
 
 -- Altera temporariamente o caractere finalizador de comandos do MySQL (que padrão é ;) para //
 DELIMITER //
@@ -21,7 +21,7 @@ CREATE PROCEDURE sp_AddCliente
 	IN p_nome VARCHAR(255),
 	IN p_cpf CHAR(11),
 	IN p_email VARCHAR(255),
-	IN p_senha VARCHAR(25),
+	IN p_senha VARCHAR(255),
 	IN p_data_Nasc DATE,
     
 	-- Telefone Usuário
