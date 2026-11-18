@@ -4,7 +4,7 @@ const SALT_ROUND = 10;
 
 //Criando Cliente
 async function criarCliente({nome, cpf, email, senha, data_Nasc, telefone, aceitaOfertas}){
-
+    
     const senhaHash = await bcrypt.hash(senha, SALT_ROUND);
     const [result] = await db.query(
         "CALL sp_AddCliente (?, ?, ?, ?, ?, ?, ?)",

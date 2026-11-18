@@ -26,6 +26,11 @@ async function reporEstoque({id_Fornecedor, total_Compra, itens}){
     return result;
 }
 
+async function listarEstoque(){
+    const [result] = await db.query("SELECT * FROM Tbl_Estoque");
+    return result;
+}
+
 //Criando função de buscar estoque por id
 async function buscarEstoquePorId({id}){
     const [result] = await db.query(
@@ -59,6 +64,7 @@ async function deletarEstoque({id}){
 module.exports = {
     criarEstoque,
     reporEstoque,
+    listarEstoque,
     buscarEstoquePorId,
     atualizarEstoque,
     deletarEstoque

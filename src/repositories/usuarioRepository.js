@@ -58,6 +58,51 @@ async function atualizarUsuario({id, nome, cpf, email, senha, data_Nasc}){
         return result;
 }
 
+async function atualizarPerfilUsuario({ id, nome, email, data_Nasc, telefone }) {
+    const connection = await db.getConnection();
+
+    try {
+        await connection.beginTransaction();
+
+        const [usuarioAtualizado] = await connection.query(
+            `UPDATE Tbl_Usuario
+             SET nome = ?, email = ?, data_Nasc = ?
+             WHERE id = ?`,
+            [nome, email, data_Nasc, id]
+        );
+
+        if (usuarioAtualizado.affectedRows === 0) {
+            await connection.rollback();
+            return null;
+        }
+
+        const [telefones] = await connection.query(
+            "SELECT id FROM Tbl_Telefone_Usuario WHERE id_Usuario = ? LIMIT 1",
+            [id]
+        );
+
+        if (telefones[0]) {
+            await connection.query(
+                "UPDATE Tbl_Telefone_Usuario SET telefone = ? WHERE id = ?",
+                [telefone, telefones[0].id]
+            );
+        } else {
+            await connection.query(
+                "INSERT INTO Tbl_Telefone_Usuario (id_Usuario, telefone) VALUES (?, ?)",
+                [id, telefone]
+            );
+        }
+
+        await connection.commit();
+        return { nome, email, data_Nasc, telefone };
+    } catch (erro) {
+        await connection.rollback();
+        throw erro;
+    } finally {
+        connection.release();
+    }
+}
+
 //Criando função para deletar usuário
 async function deletarUsuario({id}){
     const [result] = await db.query(
@@ -67,11 +112,27 @@ async function deletarUsuario({id}){
     return result;
 }
 
+//Usuario perfil
+
+async function buscarPerfilUsuario({id}){
+    const [result] = await db.query(
+        `SELECT u.nome, u.email, u.cpf, u.data_Nasc, t.telefone
+         FROM Tbl_Usuario u
+         LEFT JOIN Tbl_Telefone_Usuario t ON t.id_Usuario = u.id
+         WHERE u.id = ?`,
+        [id]
+    );
+    return result[0];
+
+}
+
 //Utilizando todas as funções
 module.exports = {
     criarUsuario,
     buscarUsuarioPorId,
     buscarUsuarioPorEmail,
     atualizarUsuario,
-    deletarUsuario
+    atualizarPerfilUsuario,
+    deletarUsuario,
+    buscarPerfilUsuario
 };

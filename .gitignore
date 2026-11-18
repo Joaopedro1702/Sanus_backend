@@ -1,10 +1,4 @@
 .history/
 .env
-.env.*
-!.env.example
 node_modules/
 *.zip
-*.log
-coverage/
-.DS_Store
-Thumbs.db
