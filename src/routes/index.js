@@ -219,9 +219,9 @@ router.post("/perfil/logout",(req, res) => {
   });
 
 router.get("/perfil/foto_perfil", async (req, res) => {
-    const resposta = await usuarioRepo.fotoPerfil({idUsuario: req.usuario.id});
+    const resposta = await usuarioRepo.fotoPerfil({id: req.usuario.id});
 
-    if(!resposta.ok){
+    if(!resposta){
       return res.status(404).json({
         error: "Foto de perfil não encontrada."
       });
