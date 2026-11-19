@@ -129,7 +129,7 @@ async function buscarPerfilUsuario({id}){
 //Foto de perfil de usuário
 async function fotoPerfil({id}){
     const [resultado] = await db.query(
-        "SELECT u.foto_perfil WHERE id = ?",
+        "SELECT foto_perfil FROM Tbl_Usuario WHERE id = ?",
         [id]
     );
     return resultado;
