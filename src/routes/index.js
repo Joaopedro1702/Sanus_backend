@@ -218,8 +218,7 @@ router.post("/perfil/logout",(req, res) => {
     });
   });
 
-router.get("/perfil/foto_perfil", async (req, res, next) => {
-  try{
+router.get("/perfil/foto_perfil", async (req, res) => {
     const resposta = await usuarioRepo.fotoPerfil({idUsuario: req.usuario.id});
 
     if(!resposta.ok){
@@ -229,10 +228,7 @@ router.get("/perfil/foto_perfil", async (req, res, next) => {
     }
 
     return res.json({foto_perfil: resposta});
-  }catch(erro){
-    return next(erro)
-  }
-})
+  })
 
 //Routes para o dashboard
 router.get("/dashboard/faturamento-tarja", dashboardController.getFaturamentoPorTarja);

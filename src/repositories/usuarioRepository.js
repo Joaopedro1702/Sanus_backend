@@ -132,7 +132,7 @@ async function fotoPerfil({id}){
         "SELECT foto_perfil FROM Tbl_Usuario WHERE id = ?",
         [id]
     );
-    return resultado;
+    return resultado[0]?.foto_perfil ?? null;
 }
 
 //Utilizando todas as funções
