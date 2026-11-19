@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const multer = require("multer");
 const bcrypt = require("bcryptjs");
 const jwt = require('jsonwebtoken');
 const { jwtSecret, mpPublicKey, publicBaseUrl } = require('../config');
