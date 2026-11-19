@@ -135,6 +135,14 @@ async function fotoPerfil({id}){
     return resultado[0]?.foto_perfil ?? null;
 }
 
+async function atualizarFotoPerfil({ id, foto }) {
+    const [resultado] = await db.query(
+        "UPDATE Tbl_Usuario SET foto_perfil = ? WHERE id = ?",
+        [foto, id]
+    );
+    return resultado.affectedRows > 0;
+}
+
 //Utilizando todas as funções
 module.exports = {
     criarUsuario,
@@ -144,5 +152,6 @@ module.exports = {
     atualizarPerfilUsuario,
     deletarUsuario,
     buscarPerfilUsuario,
-    fotoPerfil
+    fotoPerfil,
+    atualizarFotoPerfil
 };
